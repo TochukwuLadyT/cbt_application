@@ -1,0 +1,42 @@
+ Socket sock = new Socket();
+        InetSocketAddress addr=new InetSocketAddress("192.168.10.1",80);
+        try{
+            sock.connect(addr,8000);
+             //answerCheck();
+                clicked  += 1;
+          if (clicked  > 1 && studentAnswer.equals(answer)){
+               
+          }else{
+                answerCheck();
+               System.out.println(clicked);
+          }
+             question();
+
+        }catch(Exception e){
+            javax.swing.JOptionPane.showMessageDialog(null, "<html><b style=\"color:orange; font-size:12px;\">DEAR CANDIDATE, You have lost Connection</b></html>");
+        
+       
+        
+        String exam_id = jLabel9.getText();
+        String  time_left = jLabel6.getText();
+        String  time_used_secs = jLabel7.getText();
+        String  time_used_mins = jLabel3.getText();
+        
+           try { 
+            cconnection cconnection = new cconnection();
+            Connection conn = cconnection.getConnection();
+                Statement stati = conn.createStatement();      
+                String sv = "INSERT into lost_connection_time values('" + exam_id + "','"+time_left+"','"+time_used_secs+"','"+time_used_mins+"');";
+                stati.executeUpdate(sv);          
+                stati.executeUpdate("update lost_connection_time set time_left='" + time_left + "', time_used_secs = '" + time_used_secs + "', time_used_mins = '"+time_used_mins+"' where exam_id='" + exam_id + "'");
+ 
+            } catch (Exception ex) {
+             ex.printStackTrace();
+               // JOptionPane.showMessageDialog(null, "Dear Candidate you have lost connection", "Info", JOptionPane.ERROR_MESSAGE);
+            }
+        
+        } finally{
+            try{sock.close();}
+            catch (Exception e) {}
+        }
+        
